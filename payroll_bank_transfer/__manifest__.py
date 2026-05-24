@@ -19,7 +19,7 @@ Key Features:
     """,
     'author': 'Concept Solutions Oman',
     'website': 'https://github.com/concept-solutions-oman/payroll_bank_transfer',
-    'depends': ['hr_payroll_community', 'salary_structure_custom'],
+    'depends': ['hr_payroll_community'],
     'data': [
         'security/ir.model.access.csv',
         'wizard/bank_transfer_wizard_view.xml',
