@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payroll Bank Transfer Excel - Odoo 17</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0f2b46;
+            --primary-light: #1b446c;
+            --accent: #10b981;
+            --accent-glow: rgba(16, 185, 129, 0.15);
+            --bg-dark: #091724;
+            --text-dark: #ffffff;
+            --text-muted: #64748b;
+            --card-bg: #ffffff;
+            --card-shadow: 0 10px 30px rgba(15, 43, 70, 0.08);
+            --border-color: #e2e8f0;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+            line-height: 1.6;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--bg-dark) 0%, var(--primary) 100%);
+            border-radius: 24px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 20px 40px rgba(9, 23, 36, 0.15);
+            margin-bottom: 3rem;
+            color: var(--text-dark);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .hero-content {
+            padding: 4rem 3rem;
+            max-width: 700px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .badge-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .badge {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-dark);
+            padding: 0.4rem 1rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .badge.badge-accent {
+            background: rgba(16, 185, 129, 0.2);
+            color: #34d399;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .hero h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 3.2rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #ffffff 60%, #a7f3d0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.15rem;
+            color: #cbd5e1;
+            margin-bottom: 2rem;
+            font-weight: 400;
+        }
+
+        .hero-banner {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Section Heading */
+        .section-header {
+            text-align: center;
+            margin-bottom: 3.5rem;
+        }
+
+        .section-header h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.2rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-weight: 700;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-header p {
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+            font-size: 1.05rem;
+        }
+
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 2.5rem 2rem;
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--accent);
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(15, 43, 70, 0.12);
+            border-color: rgba(16, 185, 129, 0.3);
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .icon-wrapper {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            background: var(--accent-glow);
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            transition: var(--transition);
+        }
+
+        .feature-card:hover .icon-wrapper {
+            background: var(--accent);
+            color: #ffffff;
+            transform: scale(1.1);
+        }
+
+        .feature-card h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.4rem;
+            color: var(--primary);
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+        }
+
+        .feature-card p {
+            color: #475569;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* How it works */
+        .how-it-works {
+            background: #ffffff;
+            border-radius: 24px;
+            padding: 4rem 3rem;
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--border-color);
+            margin-bottom: 4rem;
+        }
+
+        .steps-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2.5rem;
+            margin-top: 3rem;
+            position: relative;
+        }
+
+        .step-item {
+            position: relative;
+            text-align: center;
+        }
+
+        .step-number {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin: 0 auto 1.5rem;
+            border: 4px solid var(--accent-glow);
+            box-shadow: 0 4px 10px rgba(15, 43, 70, 0.15);
+        }
+
+        .step-item h4 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.2rem;
+            color: var(--primary);
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+        }
+
+        .step-item p {
+            color: #64748b;
+            font-size: 0.9rem;
+            padding: 0 1rem;
+        }
+
+        /* Table Section */
+        .specs-section {
+            margin-bottom: 4rem;
+        }
+
+        .table-responsive {
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th {
+            background: var(--primary);
+            color: #ffffff;
+            padding: 1.2rem 1.5rem;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 1.2rem 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.95rem;
+            color: #334155;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+
+        .code-tag {
+            font-family: monospace;
+            background: #f1f5f9;
+            color: #0f172a;
+            padding: 0.2rem 0.6rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            border: 1px solid #cbd5e1;
+        }
+
+        /* Technical details & dependencies */
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .details-card {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 2.5rem 2rem;
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--border-color);
+        }
+
+        .details-card h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.4rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--accent-glow);
+            padding-bottom: 0.75rem;
+        }
+
+        .info-list {
+            list-style: none;
+        }
+
+        .info-list li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px dashed var(--border-color);
+        }
+
+        .info-list li:last-child {
+            border-bottom: none;
+        }
+
+        .info-list .label {
+            font-weight: 600;
+            color: #475569;
+        }
+
+        .info-list .val {
+            color: var(--primary-light);
+            font-weight: 500;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--bg-dark);
+            border-radius: 24px;
+            padding: 3.5rem;
+            text-align: center;
+            color: var(--text-dark);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .footer-logo {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-logo span {
+            color: var(--accent);
+        }
+
+        .footer p {
+            color: #94a3b8;
+            max-width: 500px;
+            margin: 0 auto 2rem;
+            font-size: 0.95rem;
+        }
+
+        .footer-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--accent);
+            color: var(--bg-dark);
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+
+        .footer-button:hover {
+            background: #34d399;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+        }
+
+        /* Responsive designs */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.3rem;
+            }
+            .hero-content {
+                padding: 3rem 2rem;
+            }
+            .how-it-works {
+                padding: 3rem 1.5rem;
+            }
+            .footer {
+                padding: 2.5rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <div class="badge-container">
+                    <span class="badge badge-accent">v17.0 Active</span>
+                    <span class="badge">Odoo Enterprise & Community</span>
+                    <span class="badge">GCC Localization</span>
+                </div>
+                <h1>Payroll Bank Transfer Excel</h1>
+                <p>Automate and streamline your employee payout process. Generate structured, banking-compliant spreadsheets from selected payslips with absolute precision, zero hassle, and instant validation.</p>
+            </div>
+            <img src="banner.png" alt="Payroll Bank Transfer System Banner" class="hero-banner">
+        </section>
+
+        <!-- Core Features Section -->
+        <section>
+            <div class="section-header">
+                <h2>Powerful Integration Features</h2>
+                <p>Designed for businesses operating with 3-decimal currencies and strict commercial banking requirements.</p>
+            </div>
+
+            <div class="features-grid">
+                <!-- Feature 1 -->
+                <div class="feature-card">
+                    <div class="icon-wrapper">🏦</div>
+                    <h3>Multi-Bank Compatibility</h3>
+                    <p>Formats files exactly as required by corporate banking portals (such as Oman Arab Bank and other regional banks). Ready for straight-through-processing upload.</p>
+                </div>
+                <!-- Feature 2 -->
+                <div class="feature-card">
+                    <div class="icon-wrapper">🔢</div>
+                    <h3>3-Decimal Precision</h3>
+                    <p>Built specifically for currencies like Omani Rial (OMR). Implements exact 3-decimal rounding for net salary, basic salary, extra income, deductions, and SPF.</p>
+                </div>
+                <!-- Feature 3 -->
+                <div class="feature-card">
+                    <div class="icon-wrapper">🧹</div>
+                    <h3>Automated Data Sanitization</h3>
+                    <p>Restricts employee names to a maximum of 30 characters and automatically removes invalid special characters, ensuring your batch isn't rejected by the bank.</p>
+                </div>
+                <!-- Feature 4 -->
+                <div class="feature-card">
+                    <div class="icon-wrapper">💸</div>
+                    <h3>Deep Payroll Deductions Map</h3>
+                    <p>Extracts and maps basic salary, extra income (allowances/OT), general deductions, and Social Security Deductions (SPF) to respective columns.</p>
+                </div>
+                <!-- Feature 5 -->
+                <div class="feature-card">
+                    <div class="icon-wrapper">⚡</div>
+                    <h3>Seamless Batch Operations</h3>
+                    <p>Launch directly from Odoo’s Payslips List View. Select any number of employee payslips, click action, and generate the master bank transfer file in one click.</p>
+                </div>
+                <!-- Feature 6 -->
+                <div class="feature-card">
+                    <div class="icon-wrapper">📋</div>
+                    <h3>Automatic Nationality Flag</h3>
+                    <p>Recognizes Omani vs. Expat employees based on country settings, facilitating compliance reporting and accurate social security classifications automatically.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- How it works -->
+        <section class="how-it-works">
+            <div class="section-header">
+                <h2>Simple & Intuitive Workflow</h2>
+                <p>Go from employee payslips to a bank-ready upload in just three simple steps.</p>
+            </div>
+            <div class="steps-container">
+                <div class="step-item">
+                    <div class="step-number">1</div>
+                    <h4>Select Payslips</h4>
+                    <p>Go to Payroll -> Employee Payslips. Mark the checkbox for the payslips you want to pay out, click "Action", and choose "Bank Transfer Excel".</p>
+                </div>
+                <div class="step-item">
+                    <div class="step-number">2</div>
+                    <h4>Configure Settings</h4>
+                    <p>Review the payer credentials (like CR-NO, Account details) and pick the payment type (e.g. Monthly Salary or Bonus).</p>
+                </div>
+                <div class="step-item">
+                    <div class="step-number">3</div>
+                    <h4>Export & Upload</h4>
+                    <p>Click "Export". The module will package everything into a perfectly formatted, compliant Excel sheet ready to upload directly to your bank's portal.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Data Mapping Specification -->
+        <section class="specs-section">
+            <div class="section-header">
+                <h2>Export Sheet Specifications</h2>
+                <p>The system generates a standard multi-column structure formatted using <span class="code-tag">openpyxl</span> for accurate processing.</p>
+            </div>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Column Header</th>
+                            <th>Field Content</th>
+                            <th>Formatting / Logic</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Employee ID Type</strong></td>
+                            <td>Constant type identifier</td>
+                            <td><span class="code-tag">"C"</span> (National/Civil Card)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Employee ID</strong></td>
+                            <td>Identification Card Number</td>
+                            <td>From Employee Profile</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Reference Number</strong></td>
+                            <td>Internal Employee Number</td>
+                            <td>From Employee Card</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Employee Name</strong></td>
+                            <td>Clean alphanumeric name</td>
+                            <td>Sanitized & truncated to 30 characters</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Employee BIC</strong></td>
+                            <td>Bank Identifier / Swift Code</td>
+                            <td>Uppercase bank identifier</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Employee Account</strong></td>
+                            <td>Alphanumeric Account Number</td>
+                            <td>Stripped of hyphens and whitespace</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Salary Frequency</strong></td>
+                            <td>Frequency of disbursement</td>
+                            <td><span class="code-tag">"M"</span> (Monthly)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Working Days</strong></td>
+                            <td>Total payable days</td>
+                            <td>Derived from basic payslip line quantity</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Net Salary</strong></td>
+                            <td>Final net amount to pay</td>
+                            <td>Formatted to 3 decimals (<span class="code-tag">0.000</span>)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Basic Salary</strong></td>
+                            <td>Contract basic pay</td>
+                            <td>Formatted to 3 decimals (<span class="code-tag">0.000</span>)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Extra Hours</strong></td>
+                            <td>Overtime duration</td>
+                            <td>Aggregated from payslip OT worked days</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Extra Income</strong></td>
+                            <td>All additional allowances</td>
+                            <td>Formatted to 3 decimals (<span class="code-tag">0.000</span>)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Deductions</strong></td>
+                            <td>Salary deductions (non-SPF)</td>
+                            <td>Formatted to 3 decimals (<span class="code-tag">0.000</span>)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Social Security Deductions</strong></td>
+                            <td>SPF Contribution</td>
+                            <td>Formatted to 3 decimals (<span class="code-tag">0.000</span>)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Notes / Comments</strong></td>
+                            <td>Automated transfer note</td>
+                            <td>e.g. "Jan 2026 Salary"</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Nationality</strong></td>
+                            <td>Citizen vs. Expat flag</td>
+                            <td><span class="code-tag">"OMAN"</span> or <span class="code-tag">"EXPAT"</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Division</strong></td>
+                            <td>Department classification</td>
+                            <td>From Employee Department name</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Technical Specification Info & Dependencies -->
+        <section class="details-grid">
+            <div class="details-card">
+                <h3>Technical Summary</h3>
+                <ul class="info-list">
+                    <li>
+                        <span class="label">App Version</span>
+                        <span class="val">17.0.1.0.0</span>
+                    </li>
+                    <li>
+                        <span class="label">Framework Version</span>
+                        <span class="val">Odoo 17.0 (LTS)</span>
+                    </li>
+                    <li>
+                        <span class="label">License</span>
+                        <span class="val">LGPL-3</span>
+                    </li>
+                    <li>
+                        <span class="label">Author</span>
+                        <span class="val">Odoo Addons Developer</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="details-card">
+                <h3>Module Dependencies</h3>
+                <ul class="info-list">
+                    <li>
+                        <span class="label">hr_payroll_community</span>
+                        <span class="val">Required</span>
+                    </li>
+                    <li>
+                        <span class="label">salary_structure_custom</span>
+                        <span class="val">Required</span>
+                    </li>
+                    <li>
+                        <span class="label">python: openpyxl</span>
+                        <span class="val">Required</span>
+                    </li>
+                    <li>
+                        <span class="label">Auto-Installable</span>
+                        <span class="val">No</span>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Call to Action Footer -->
+        <footer class="footer">
+            <div class="footer-logo">🏦 Payroll <span>Bank Transfer</span></div>
+            <p>Need custom Excel formatting or integration with a different bank format? Feel free to contact our technical team for custom support.</p>
+            <a href="mailto:support@yourcompany.com" class="footer-button">Get Technical Support</a>
+        </footer>
+    </div>
+</body>
+</html>

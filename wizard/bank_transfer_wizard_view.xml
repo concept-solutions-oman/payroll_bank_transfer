@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_bank_transfer_wizard_form" model="ir.ui.view">
+        <field name="name">bank.transfer.wizard.form</field>
+        <field name="model">bank.transfer.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Bank Transfer Excel Report">
+                <p class="oe_grey" invisible="excel_file">
+                    Click "Export" to generate the Excel file.
+                </p>
+                <field name="payslip_ids" invisible="1"/>
+                <group invisible="not excel_file">
+                    <field name="file_name" invisible="1"/>
+                    <field name="excel_file" filename="file_name" readonly="1"/>
+                </group>
+                <footer>
+                    <button name="action_export_excel" string="Export" type="object" class="btn-primary" invisible="excel_file"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_bank_transfer_wizard" model="ir.actions.act_window">
+        <field name="name">Bank Transfer Excel</field>
+        <field name="res_model">bank.transfer.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="hr_payroll_community.model_hr_payslip"/>
+        <field name="binding_view_types">list</field>
+    </record>
+</odoo>
